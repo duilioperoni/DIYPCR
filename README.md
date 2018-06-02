@@ -13,6 +13,7 @@ Arduino based harware
 - CSV remote log
 
 PCR Cycle
+<pre>
            |              N x Cycles          |
      |  H  |   D   | C |    A    |H|   eX  |H |C|
 Td _ _ _ _ _________ _ _ _ _ _ _ _ _ _ _ _ _ _ _|_
@@ -23,8 +24,9 @@ Ta _ _ /_ _|_ _ _ _|_ _\_________/_|_ _ _ _|_\|_|_
      |/    |       |   |         | |       |  \ |
 Tr __/ _ _ |_ _ _ _| _ | _ _ _ _ |_|_ _ _ _|_ |\__
      |     |       |   |         | |       |  | |
-     
+</pre>     
 CSV log format:
+<pre>
 <total_time>;<cycle_number>;<phase>;<phase_time>;<temperature>;<status><cr><lf>
 <total_time>   :: HH:MM:SS
 <cycle_number> :: 1..NUM_CYCLES
@@ -32,7 +34,7 @@ CSV log format:
 <phase_time>   :: HH:MM:SS
 <temperature>  :: tt.tt (°C)
 <status>       :: 0=ok, 1=operator stop, 2=sensor not working, 3=temp already over setpoint, 4=temp not stable
-
+</pre>
 RGB diagn colors:
 Idle=green, Heating=red, Cooling=blue, Denaturation=fuchsia, Annealing=cyan, eXtension=yellow, fault=white.
 
