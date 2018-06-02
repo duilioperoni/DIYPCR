@@ -25,7 +25,7 @@ Ta _ _ /_ _|_ _ _ _|_ _\_________/_|_ _ _ _|_\|_|_
 Tr __/ _ _ |_ _ _ _| _ | _ _ _ _ |_|_ _ _ _|_ |\__
      |     |       |   |         | |       |  | |
 </pre>     
-CSV log format:
+CSV log format:<br>
 total_time;cycle_number;phase;phase_time;temperature;status cr_lf<br>
 total_time   :: HH:MM:SS<br>
 cycle_number :: 1..NUM_CYCLES<br>
