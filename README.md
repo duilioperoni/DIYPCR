@@ -26,13 +26,13 @@ Tr __/ _ _ |_ _ _ _| _ | _ _ _ _ |_|_ _ _ _|_ |\__
      |     |       |   |         | |       |  | |
 </pre>     
 CSV log format:
-<total_time>;<cycle_number>;<phase>;<phase_time>;<temperature>;<status><cr><lf><br>
-<total_time>   :: HH:MM:SS<br>
-<cycle_number> :: 1..NUM_CYCLES<br>
-<phase>        :: I=Idle, H=heating, C=cooling, D=denaturation, A=annealing, E=extension, F= fault<br> 
-<phase_time>   :: HH:MM:SS<br>
-<temperature>  :: tt.tt (°C)<br>
-<status>       :: 0=ok, 1=operator stop, 2=sensor not working, 3=temp already over setpoint, 4=temp not stable<br>
+total_time;cycle_number;phase;phase_time;temperature;status cr_lf<br>
+total_time   :: HH:MM:SS<br>
+cycle_number :: 1..NUM_CYCLES<br>
+phase        :: I=Idle, H=heating, C=cooling, D=denaturation, A=annealing, E=extension, F= fault<br> 
+phase_time   :: HH:MM:SS<br>
+temperature  :: tt.tt (°C)<br>
+status       :: 0=ok, 1=operator stop, 2=sensor not working, 3=temp already over setpoint, 4=temp not stable<br>
 RGB diagn colors:<br>
 Idle=green, Heating=red, Cooling=blue, Denaturation=fuchsia, Annealing=cyan, eXtension=yellow, fault=white.<br>
 
