@@ -75,7 +75,7 @@
 #define FAN_THRESHOLD_TEMP        0.75    //fan threshold temperature (in order to avoid underruning temperature in cooling)
 #define SETPOINT_THRESHOLD_TEMP   0.5     //setpoint threshold temperature (in order stabilize setpoit holding)
 #define STABILITY_THRESHOLD_TEMP  1.25    //max deviation from setpoint
-#define APPROACH_THRESHOLD_TEMP   1.0     //approaching temp threshold in heating
+#define APPROACH_THRESHOLD_TEMP   2.0     //approaching temp threshold in heating
 
 //other heating parameters
 #define MAX_PULSE_DURATION      650       //max duration of an heating pulse (mS)
@@ -92,8 +92,8 @@
 #define INITIAL_DENATURE_TIME 300000  //first denaturation phase duration
 #define FINAL_EXTENSION_TIME  600000  //last extension phase duration
 #define COOL_SAMPLE_TIME      300     //temperature sample time during cooling phase
-#define HOLD_PULSE_DURATION   90      //hold temperature pulse duration
-#define HOLD_PAUSE_DURATION   210     //hold temperature pulse duration
+#define HOLD_PULSE_DURATION   210      //hold temperature pulse duration
+#define HOLD_PAUSE_DURATION   90       //hold temperature pulse duration
 
 //safety params (°C)
 #define ROOM_TEMP               18    //room temperature setpoit (to check for sensor failure)
@@ -144,8 +144,8 @@
 #define INITIAL_DENATURE_TIME 10000  //first denaturation phase duration
 #define FINAL_EXTENSION_TIME  10000  //last extension phase duration
 #define COOL_SAMPLE_TIME      300     //temperature sample time during cooling phase
-#define HOLD_PULSE_DURATION   90      //hold temperature pulse duration
-#define HOLD_PAUSE_DURATION   210     //hold temperature pulse duration
+#define HOLD_PULSE_DURATION   210      //hold temperature pulse duration
+#define HOLD_PAUSE_DURATION   90      //hold temperature pulse duration
 
 //safety params (°C)
 #define ROOM_TEMP              18     //room temperature setpoit (to check for sensor failure)
@@ -178,6 +178,8 @@ double getTemperature(void);
 void setStatus(int phase);
 boolean buttonPressed(void);
 void updateTemperature(void);
+boolean serialEvent(void);
+
 
 //global variables                          
 int currInButton;               //current loop status of start/stop pushbutton     
@@ -237,6 +239,11 @@ void loop() {
   //check for start button pressed (HIGH to LOW transition)
   if(buttonPressed()){
     //run a full PCR cycle on start event
+    runPCR();
+  }
+  //check for serial command ('s' or 'S')
+  if(serialEvent()){
+    //run a full PCR cycle on serial command
     runPCR();
   }
   updateTemperature();
@@ -394,7 +401,8 @@ boolean heatUp(double setpoint){
         break;
       }
       //approaching to setpoint insert a little wait between heat pulses to avoid overheat
-      if((setpoint-currTemp) < APPROACH_THRESHOLD_TEMP || curIteration % OVERHEAT_TEST == 0) {
+//      if((setpoint-currTemp) < APPROACH_THRESHOLD_TEMP || curIteration % OVERHEAT_TEST == 0) {
+      if((setpoint-currTemp) < APPROACH_THRESHOLD_TEMP ) {
         do {
           prevTemp = currTemp;
           delay(OVERHEAT_TIME); 
@@ -495,6 +503,9 @@ boolean holdConstantTemp(long duration, double setpoint) {
       delay(HOLD_PULSE_DURATION);
       digitalWrite(FAN_PIN, LOW);
     }
+    else { //temperature in range
+      delay(HOLD_PULSE_DURATION);
+    }
     delay(HOLD_PAUSE_DURATION);
     holdTimeElapsed = millis() - startPhaseTime;
   } 
@@ -539,7 +550,7 @@ void log(boolean force=false){
     //phase time in HH:MM:SS format
     ts=phaseTime/1000;  //time in seconds
     h = ts/3600;                  //hours
-    t = t % 3600;
+    t = ts % 3600;
     m = t/60;                    //minutes 
     s = t%60;                    //seconds
     sprintf(buffer,"%02d:%02d",m,s);
@@ -620,6 +631,21 @@ boolean buttonPressed(void){
     ris=true;
   }
   prevInButton=currInButton;  
+  return ris;
+}
+
+//serialEvent: check for falling command from serial
+//              returns true: command from serial
+boolean serialEvent(void){
+  boolean ris=false;
+  if(Serial.available()){
+    int rx=Serial.read();
+    if((rx=='s')||(rx=='S')){
+      if((currPhase==IDLE)||(currPhase==FAULT)) {
+        ris=true;
+      }  
+    }
+  }
   return ris;
 }
 
