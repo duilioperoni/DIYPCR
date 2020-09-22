@@ -3,7 +3,7 @@
  * PCR code for denaturing, annealing and extending DNA cycles.
  * iDP (duilio.peroni@gmail.com) may 2018
  * Derived from: Stacey Kuznetsov (stace@cmu.edu) and Matt Mancuso (mcmancuso@gmail.com) July 2012
- * V 1.0 01/06/2018
+ * V 1.0 01/06/2018 x
  * Arduino based harware
  * - K-type thermocouple sensor with MAX6675 A/D converter
  * - 2x 50W resistor heater
