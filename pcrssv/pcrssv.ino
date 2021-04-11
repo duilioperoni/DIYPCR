@@ -61,9 +61,9 @@
 #define APPROACH_THRESHOLD_TEMP   2.0     //approaching temp threshold in heating
 
 //other heating parameters
-#define MAX_PULSE_DURATION      650       //max duration of an heating pulse (mS)
-#define PULSE_DURATION_MULT     600       //multiplication coefficient to get pulse duration proportional to temperature gap (adimensional)
-#define MIN_PULSE_DURATION      80        //min duration of an heating pulse when approaching to setpoit (mS)
+#define MAX_PULSE_DURATION      650.0     //max duration of an heating pulse (mS)
+#define PULSE_DURATION_MULT     600.0     //multiplication coefficient to get pulse duration proportional to temperature gap (adimensional)
+#define MIN_PULSE_DURATION      80.0      //min duration of an heating pulse when approaching to setpoit (mS)
 #define OVERHEAT_TEST           30        //number of iteration before each overheat test (adimensional)
 #define OVERHEAT_TIME           250       //overheat wait pulse (no heating, mS)
 
